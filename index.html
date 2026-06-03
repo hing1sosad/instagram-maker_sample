@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Instagram Maker</title>
+
+<style>
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: Arial, "Noto Sans KR", sans-serif;
+  background: #f3f3f3;
+  color: #111;
+}
+
+.wrap {
+  display: grid;
+  grid-template-columns: 360px 1fr;
+  gap: 40px;
+  padding: 40px;
+}
+
+.editor {
+  background: white;
+  padding: 24px;
+  border-radius: 20px;
+  height: fit-content;
+}
+
+.editor h1 {
+  margin-top: 0;
+}
+
+.editor label {
+  display: block;
+  margin-top: 16px;
+  margin-bottom: 6px;
+  font-weight: bold;
+  font-size: 14px;
+}
+
+.editor input,
+.editor textarea {
+  width: 100%;
+  padding: 11px;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  font-size: 14px;
+}
+
+.editor textarea {
+  height: 70px;
+  resize: none;
+}
+
+.editor button {
+  width: 100%;
+  margin-top: 20px;
+  padding: 13px;
+  border: none;
+  border-radius: 999px;
+  background: #111;
+  color: white;
+  font-size: 15px;
+  cursor: pointer;
+}
+
+.preview {
+  display: flex;
+  justify-content: center;
+}
+
+.instagram {
+  width: 430px;
+  background: white;
+  border: 1px solid #ddd;
+}
+
+.topbar {
+  height: 54px;
+  padding: 0 18px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-weight: bold;
+  border-bottom: 1px solid #eee;
+}
+
+.profile {
+  display: flex;
+  align-items: center;
+  padding: 24px 18px 12px;
+  gap: 28px;
+}
+
+.profile-img {
+  width: 92px;
+  height: 92px;
+  border-radius: 50%;
+  background: #ddd;
+  object-fit: cover;
+}
+
+.stats {
+  flex: 1;
+  display: flex;
+  justify-content: space-around;
+  text-align: center;
+}
+
+.stats strong {
+  display: block;
+  font-size: 18px;
+}
+
+.stats span {
+  font-size: 13px;
+}
+
+.bio {
+  padding: 0 18px;
+  line-height: 1.5;
+}
+
+.bio p {
+  margin: 4px 0 0;
+  white-space: pre-line;
+}
+
+.follow-btn {
+  margin: 16px 18px;
+  padding: 9px;
+  border-radius: 8px;
+  text-align: center;
+  background: #0095f6;
+  color: white;
+  font-weight: bold;
+}
+
+.tabs {
+  display: flex;
+  justify-content: space-around;
+  padding: 12px 0;
+  border-top: 1px solid #eee;
+  border-bottom: 1px solid #eee;
+}
+
+.post-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 14px;
+}
+
+.post-header img {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background: #ddd;
+  object-fit: cover;
+}
+
+.post-image {
+  width: 100%;
+  height: 430px;
+  background: #eee;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #aaa;
+  overflow: hidden;
+}
+
+.post-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.icons {
+  display: flex;
+  gap: 16px;
+  padding: 14px 14px 4px;
+  font-size: 24px;
+}
+
+.icons span:last-child {
+  margin-left: auto;
+}
+
+.likes,
+.caption,
+.date {
+  padding: 0 14px;
+  margin: 8px 0;
+}
+
+.caption {
+  line-height: 1.5;
+}
+
+.date {
+  padding-bottom: 18px;
+  font-size: 12px;
+  color: #888;
+}
+
+@media (max-width: 900px) {
+  .wrap {
+    grid-template-columns: 1fr;
+    padding: 20px;
+  }
+
+  .instagram {
+    width: 100%;
+    max-width: 430px;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<div class="wrap">
+
+  <section class="editor">
+    <h1>Instagram Maker</h1>
+
+    <label>프로필 이미지</label>
+    <input type="file" id="profileInput" accept="image/*">
+
+    <label>아이디</label>
+    <input type="text" id="userIdInput" value="happynueey">
+
+    <label>이름</label>
+    <input type="text" id="nameInput" value="Nueey">
+
+    <label>소개글</label>
+    <textarea id="bioInput">디자인과 캐릭터를 기록하는 공간</textarea>
+
+    <label>게시물 수</label>
+    <input type="text" id="postCountInput" value="24">
+
+    <label>팔로워</label>
+    <input type="text" id="followerInput" value="1.2K">
+
+    <label>팔로잉</label>
+    <input type="text" id="followingInput" value="180">
+
+    <label>게시물 이미지</label>
+    <input type="file" id="postInput" accept="image/*">
+
+    <label>캡션</label>
+    <textarea id="captionInput">오늘의 작업 기록 ✦ #design #character</textarea>
+
+    <label>좋아요 수</label>
+    <input type="text" id="likeInput" value="2,481">
+
+    <label>게시 날짜</label>
+    <input type="text" id="dateInput" value="2026년 6월 3일">
+
+    <button id="downloadBtn">이미지로 저장하기</button>
+  </section>
+
+  <section class="preview">
+    <div class="instagram" id="captureArea">
+
+      <div class="topbar">
+        <span id="topUserId">happynueey</span>
+        <span>＋</span>
+      </div>
+
+      <div class="profile">
+        <img id="profilePreview" class="profile-img" alt="profile">
+
+        <div class="stats">
+          <div>
+            <strong id="postCountPreview">24</strong>
+            <span>게시물</span>
+          </div>
+          <div>
+            <strong id="followerPreview">1.2K</strong>
+            <span>팔로워</span>
+          </div>
+          <div>
+            <strong id="followingPreview">180</strong>
+            <span>팔로잉</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="bio">
+        <strong id="namePreview">Nueey</strong>
+        <p id="bioPreview">디자인과 캐릭터를 기록하는 공간</p>
+      </div>
+
+      <div class="follow-btn">팔로우</div>
+
+      <div class="tabs">
+        <span>▦</span>
+        <span>▶</span>
+        <span>◎</span>
+      </div>
+
+      <div class="post-header">
+        <img id="smallProfilePreview" alt="profile">
+        <strong id="postUserId">happynueey</strong>
+      </div>
+
+      <div class="post-image" id="postImageBox">
+        <span>게시물 이미지</span>
+      </div>
+
+      <div class="icons">
+        <span>♡</span>
+        <span>💬</span>
+        <span>✈</span>
+        <span>⌑</span>
+      </div>
+
+      <p class="likes">
+        좋아요 <strong id="likePreview">2,481</strong>개
+      </p>
+
+      <p class="caption">
+        <strong id="captionUserId">happynueey</strong>
+        <span id="captionPreview">오늘의 작업 기록 ✦ #design #character</span>
+      </p>
+
+      <p class="date" id="datePreview">2026년 6월 3일</p>
+
+    </div>
+  </section>
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+
+<script>
+const profileInput = document.getElementById("profileInput");
+const postInput = document.getElementById("postInput");
+
+const userIdInput = document.getElementById("userIdInput");
+const nameInput = document.getElementById("nameInput");
+const bioInput = document.getElementById("bioInput");
+const postCountInput = document.getElementById("postCountInput");
+const followerInput = document.getElementById("followerInput");
+const followingInput = document.getElementById("followingInput");
+const captionInput = document.getElementById("captionInput");
+const likeInput = document.getElementById("likeInput");
+const dateInput = document.getElementById("dateInput");
+
+const topUserId = document.getElementById("topUserId");
+const postUserId = document.getElementById("postUserId");
+const captionUserId = document.getElementById("captionUserId");
+const namePreview = document.getElementById("namePreview");
+const bioPreview = document.getElementById("bioPreview");
+const postCountPreview = document.getElementById("postCountPreview");
+const followerPreview = document.getElementById("followerPreview");
+const followingPreview = document.getElementById("followingPreview");
+const captionPreview = document.getElementById("captionPreview");
+const likePreview = document.getElementById("likePreview");
+const datePreview = document.getElementById("datePreview");
+
+const profilePreview = document.getElementById("profilePreview");
+const smallProfilePreview = document.getElementById("smallProfilePreview");
+const postImageBox = document.getElementById("postImageBox");
+
+const downloadBtn = document.getElementById("downloadBtn");
+const captureArea = document.getElementById("captureArea");
+
+function updateText() {
+  const userId = userIdInput.value;
+
+  topUserId.textContent = userId;
+  postUserId.textContent = userId;
+  captionUserId.textContent = userId;
+
+  namePreview.textContent = nameInput.value;
+  bioPreview.textContent = bioInput.value;
+
+  postCountPreview.textContent = postCountInput.value;
+  followerPreview.textContent = followerInput.value;
+  followingPreview.textContent = followingInput.value;
+
+  captionPreview.textContent = captionInput.value;
+  likePreview.textContent = likeInput.value;
+  datePreview.textContent = dateInput.value;
+}
+
+[
+  userIdInput,
+  nameInput,
+  bioInput,
+  postCountInput,
+  followerInput,
+  followingInput,
+  captionInput,
+  likeInput,
+  dateInput
+].forEach(function(input) {
+  input.addEventListener("input", updateText);
+});
+
+profileInput.addEventListener("change", function() {
+  const file = profileInput.files[0];
+
+  if (!file) return;
+
+  const reader = new FileReader();
+
+  reader.onload = function(e) {
+    profilePreview.src = e.target.result;
+    smallProfilePreview.src = e.target.result;
+  };
+
+  reader.readAsDataURL(file);
+});
+
+postInput.addEventListener("change", function() {
+  const file = postInput.files[0];
+
+  if (!file) return;
+
+  const reader = new FileReader();
+
+  reader.onload = function(e) {
+    postImageBox.innerHTML = '<img src="' + e.target.result + '" alt="게시물 이미지">';
+  };
+
+  reader.readAsDataURL(file);
+});
+
+downloadBtn.addEventListener("click", function() {
+  html2canvas(captureArea, {
+    scale: 2,
+    backgroundColor: "#ffffff"
+  }).then(function(canvas) {
+    const link = document.createElement("a");
+    link.download = "instagram-maker.png";
+    link.href = canvas.toDataURL("image/png");
+    link.click();
+  });
+});
+
+updateText();
+</script>
+
+</body>
+</html>
